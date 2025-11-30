@@ -1,0 +1,27 @@
+.env 
+# Go binaries and packages
+*.exe
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# Compiled Go packages
+bin/
+pkg/
+
+# Go workspace files
+go.work.sum
+
+# Local test results
+tmp/
+
+# Editor/IDE specific files
+.vscode/
+
+.idea/
+
+# OS generated files
+.DS_Store
+Thumbs.db
