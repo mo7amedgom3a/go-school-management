@@ -14,10 +14,14 @@ type Exam struct {
 	Duration int       `gorm:"not null;comment:Duration in minutes" json:"duration"`
 	MaxScore float64   `gorm:"not null;default:100" json:"max_score"`
 
-	// Relationships
-	Course interface{}   `gorm:"foreignKey:CourseID" json:"course,omitempty"`
-	Grades []interface{} `gorm:"foreignKey:ExamID" json:"grades,omitempty"`
+	// Relationships (ignored during migration, used with Preload)
+	Course Course  `gorm:"-" json:"course,omitempty"`
+	Grades []Grade `gorm:"-" json:"grades,omitempty"`
 }
+
+// Placeholder types
+type Course struct{}
+type Grade struct{}
 
 // TableName specifies the table name for the Exam model
 func (Exam) TableName() string {

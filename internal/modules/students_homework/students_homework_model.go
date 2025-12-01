@@ -23,10 +23,14 @@ type StudentHomework struct {
 	Score          *float64       `json:"score"`
 	Status         HomeworkStatus `gorm:"type:varchar(20);not null;default:'pending'" json:"status"`
 
-	// Relationships
-	Student  interface{} `gorm:"foreignKey:StudentID" json:"student,omitempty"`
-	Homework interface{} `gorm:"foreignKey:HomeworkID" json:"homework,omitempty"`
+	// Relationships (ignored during migration, used with Preload)
+	Student  Student  `gorm:"-" json:"student,omitempty"`
+	Homework Homework `gorm:"-" json:"homework,omitempty"`
 }
+
+// Placeholder types
+type Student struct{}
+type Homework struct{}
 
 // TableName specifies the table name for the StudentHomework model
 func (StudentHomework) TableName() string {

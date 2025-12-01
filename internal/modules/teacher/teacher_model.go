@@ -10,10 +10,14 @@ type Teacher struct {
 	Phone        string `gorm:"size:20" json:"phone"`
 	DepartmentID uint   `gorm:"not null" json:"department_id"`
 
-	// Relationships
-	Department interface{}   `gorm:"foreignKey:DepartmentID" json:"department,omitempty"`
-	Courses    []interface{} `gorm:"foreignKey:TeacherID" json:"courses,omitempty"`
+	// Relationships (ignored during migration, used with Preload)
+	Department Department `gorm:"-" json:"department,omitempty"`
+	Courses    []Course   `gorm:"-" json:"courses,omitempty"`
 }
+
+// Placeholder types
+type Department struct{}
+type Course struct{}
 
 // TableName specifies the table name for the Teacher model
 func (Teacher) TableName() string {

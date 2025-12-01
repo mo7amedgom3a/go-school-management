@@ -8,10 +8,14 @@ type Grade struct {
 	ExamID    uint    `gorm:"not null" json:"exam_id"`
 	Score     float64 `gorm:"not null" json:"score"`
 
-	// Relationships
-	Student interface{} `gorm:"foreignKey:StudentID" json:"student,omitempty"`
-	Exam    interface{} `gorm:"foreignKey:ExamID" json:"exam,omitempty"`
+	// Relationships (ignored during migration, used with Preload)
+	Student Student `gorm:"-" json:"student,omitempty"`
+	Exam    Exam    `gorm:"-" json:"exam,omitempty"`
 }
+
+// Placeholder types
+type Student struct{}
+type Exam struct{}
 
 // TableName specifies the table name for the Grade model
 func (Grade) TableName() string {

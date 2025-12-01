@@ -11,14 +11,22 @@ type Course struct {
 	DepartmentID uint   `gorm:"not null" json:"department_id"`
 	TeacherID    uint   `gorm:"not null" json:"teacher_id"`
 
-	// Relationships
-	Department  interface{}   `gorm:"foreignKey:DepartmentID" json:"department,omitempty"`
-	Teacher     interface{}   `gorm:"foreignKey:TeacherID" json:"teacher,omitempty"`
-	Students    []interface{} `gorm:"many2many:student_courses" json:"students,omitempty"`
-	Attendances []interface{} `gorm:"foreignKey:CourseID" json:"attendances,omitempty"`
-	Homework    []interface{} `gorm:"foreignKey:CourseID" json:"homework,omitempty"`
-	Exams       []interface{} `gorm:"foreignKey:CourseID" json:"exams,omitempty"`
+	// Relationships (ignored during migration, used with Preload)
+	Department     Department      `gorm:"-" json:"department,omitempty"`
+	Teacher        Teacher         `gorm:"-" json:"teacher,omitempty"`
+	StudentCourses []StudentCourse `gorm:"-" json:"student_courses,omitempty"`
+	Attendances    []Attendance    `gorm:"-" json:"attendances,omitempty"`
+	Homework       []Homework      `gorm:"-" json:"homework,omitempty"`
+	Exams          []Exam          `gorm:"-" json:"exams,omitempty"`
 }
+
+// Placeholder types
+type Department struct{}
+type Teacher struct{}
+type StudentCourse struct{}
+type Attendance struct{}
+type Homework struct{}
+type Exam struct{}
 
 // TableName specifies the table name for the Course model
 func (Course) TableName() string {

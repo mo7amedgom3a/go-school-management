@@ -15,12 +15,18 @@ type Student struct {
 	DateOfBirth    time.Time `gorm:"type:date" json:"date_of_birth"`
 	EnrollmentDate time.Time `gorm:"type:date;not null" json:"enrollment_date"`
 
-	// Relationships
-	Courses             []interface{} `gorm:"many2many:student_courses" json:"courses,omitempty"`
-	Attendances         []interface{} `gorm:"foreignKey:StudentID" json:"attendances,omitempty"`
-	Grades              []interface{} `gorm:"foreignKey:StudentID" json:"grades,omitempty"`
-	HomeworkSubmissions []interface{} `gorm:"foreignKey:StudentID" json:"homework_submissions,omitempty"`
+	// Relationships (ignored during migration, used with Preload)
+	StudentCourses  []StudentCourse   `gorm:"-" json:"student_courses,omitempty"`
+	StudentHomework []StudentHomework `gorm:"-" json:"student_homework,omitempty"`
+	Attendances     []Attendance      `gorm:"-" json:"attendances,omitempty"`
+	Grades          []Grade           `gorm:"-" json:"grades,omitempty"`
 }
+
+// Placeholder types
+type StudentCourse struct{}
+type StudentHomework struct{}
+type Attendance struct{}
+type Grade struct{}
 
 // TableName specifies the table name for the Student model
 func (Student) TableName() string {

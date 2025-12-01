@@ -12,10 +12,14 @@ type StudentCourse struct {
 	CourseID       uint      `gorm:"not null;uniqueIndex:idx_student_course" json:"course_id"`
 	EnrollmentDate time.Time `gorm:"type:date;not null" json:"enrollment_date"`
 
-	// Relationships
-	Student interface{} `gorm:"foreignKey:StudentID" json:"student,omitempty"`
-	Course  interface{} `gorm:"foreignKey:CourseID" json:"course,omitempty"`
+	// Relationships (ignored during migration, used with Preload)
+	Student Student `gorm:"-" json:"student,omitempty"`
+	Course  Course  `gorm:"-" json:"course,omitempty"`
 }
+
+// Placeholder types
+type Student struct{}
+type Course struct{}
 
 // TableName specifies the table name for the StudentCourse model
 func (StudentCourse) TableName() string {
