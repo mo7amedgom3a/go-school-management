@@ -27,6 +27,10 @@ func main() {
 
 	// Connect using GORM
 	database.ConnectDB(cfg)
+
+	// Run migrations to create/update tables
+	database.RunMigrations()
+
 	r := gin.Default()
 	r.GET("/", func(c *gin.Context) {
 		c.String(http.StatusOK, "Hello, World!")
