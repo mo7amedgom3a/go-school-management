@@ -1,6 +1,11 @@
 package grade
 
-import "gorm.io/gorm"
+import (
+	"gorm.io/gorm"
+
+	"school_management/internal/modules/exam"
+	"school_management/internal/modules/student"
+)
 
 type Grade struct {
 	gorm.Model
@@ -8,14 +13,10 @@ type Grade struct {
 	ExamID    uint    `gorm:"not null" json:"exam_id"`
 	Score     float64 `gorm:"not null" json:"score"`
 
-	// Relationships (ignored during migration, used with Preload)
-	Student Student `gorm:"-" json:"student,omitempty"`
-	Exam    Exam    `gorm:"-" json:"exam,omitempty"`
+	// Belongs To relationships
+	Student student.Student `gorm:"foreignKey:StudentID" json:"student,omitempty"`
+	Exam    exam.Exam       `gorm:"foreignKey:ExamID" json:"exam,omitempty"`
 }
-
-// Placeholder types
-type Student struct{}
-type Exam struct{}
 
 // TableName specifies the table name for the Grade model
 func (Grade) TableName() string {

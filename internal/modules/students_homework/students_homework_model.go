@@ -4,6 +4,9 @@ import (
 	"time"
 
 	"gorm.io/gorm"
+
+	"school_management/internal/modules/homework"
+	"school_management/internal/modules/student"
 )
 
 // HomeworkStatus represents the status of homework submission
@@ -23,14 +26,10 @@ type StudentHomework struct {
 	Score          *float64       `json:"score"`
 	Status         HomeworkStatus `gorm:"type:varchar(20);not null;default:'pending'" json:"status"`
 
-	// Relationships (ignored during migration, used with Preload)
-	Student  Student  `gorm:"-" json:"student,omitempty"`
-	Homework Homework `gorm:"-" json:"homework,omitempty"`
+	// Belongs To relationships
+	Student  student.Student   `gorm:"foreignKey:StudentID" json:"student,omitempty"`
+	Homework homework.Homework `gorm:"foreignKey:HomeworkID" json:"homework,omitempty"`
 }
-
-// Placeholder types
-type Student struct{}
-type Homework struct{}
 
 // TableName specifies the table name for the StudentHomework model
 func (StudentHomework) TableName() string {

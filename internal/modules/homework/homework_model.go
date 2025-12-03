@@ -4,6 +4,8 @@ import (
 	"time"
 
 	"gorm.io/gorm"
+
+	"school_management/internal/modules/course"
 )
 
 type Homework struct {
@@ -14,14 +16,9 @@ type Homework struct {
 	DueDate     time.Time `gorm:"type:timestamp;not null" json:"due_date"`
 	MaxScore    float64   `gorm:"not null;default:100" json:"max_score"`
 
-	// Relationships (ignored during migration, used with Preload)
-	Course          Course            `gorm:"-" json:"course,omitempty"`
-	StudentHomework []StudentHomework `gorm:"-" json:"student_homework,omitempty"`
+	// Belongs To relationship
+	Course course.Course `gorm:"foreignKey:CourseID" json:"course,omitempty"`
 }
-
-// Placeholder types
-type Course struct{}
-type StudentHomework struct{}
 
 // TableName specifies the table name for the Homework model
 func (Homework) TableName() string {

@@ -1,6 +1,10 @@
 package teacher
 
-import "gorm.io/gorm"
+import (
+	"gorm.io/gorm"
+
+	"school_management/internal/modules/department"
+)
 
 type Teacher struct {
 	gorm.Model
@@ -10,14 +14,9 @@ type Teacher struct {
 	Phone        string `gorm:"size:20" json:"phone"`
 	DepartmentID uint   `gorm:"not null" json:"department_id"`
 
-	// Relationships (ignored during migration, used with Preload)
-	Department Department `gorm:"-" json:"department,omitempty"`
-	Courses    []Course   `gorm:"-" json:"courses,omitempty"`
+	// Belongs To relationship
+	Department department.Department `gorm:"foreignKey:DepartmentID" json:"department,omitempty"`
 }
-
-// Placeholder types
-type Department struct{}
-type Course struct{}
 
 // TableName specifies the table name for the Teacher model
 func (Teacher) TableName() string {

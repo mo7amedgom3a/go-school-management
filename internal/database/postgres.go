@@ -12,14 +12,13 @@ import (
 	"gorm.io/gorm"
 )
 
-var DB *gorm.DB
+var DB *gorm.DB // Global database instance can be {mysql, postgres, sqlite}
 
 func ConnectDB(cfg *config.Config) error {
 	dsn := fmt.Sprintf(
 		"host=%s port=%s user=%s password=%s dbname=%s sslmode=%s",
 		cfg.DBHost, cfg.DBPort, cfg.DBUser, cfg.DBPassword, cfg.DBName, cfg.DBSSLMode,
 	)
-
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatalf("❌ Failed to connect to PostgreSQL: %v", err)

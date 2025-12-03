@@ -4,6 +4,9 @@ import (
 	"time"
 
 	"gorm.io/gorm"
+
+	"school_management/internal/modules/course"
+	"school_management/internal/modules/student"
 )
 
 // AttendanceStatus represents the status of attendance
@@ -22,14 +25,10 @@ type Attendance struct {
 	Date      time.Time        `gorm:"type:date;not null" json:"date"`
 	Status    AttendanceStatus `gorm:"type:varchar(20);not null;default:'present'" json:"status"`
 
-	// Relationships (ignored during migration, used with Preload)
-	Student Student `gorm:"-" json:"student,omitempty"`
-	Course  Course  `gorm:"-" json:"course,omitempty"`
+	// Belongs To relationships
+	Student student.Student `gorm:"foreignKey:StudentID" json:"student,omitempty"`
+	Course  course.Course   `gorm:"foreignKey:CourseID" json:"course,omitempty"`
 }
-
-// Placeholder types
-type Student struct{}
-type Course struct{}
 
 // TableName specifies the table name for the Attendance model
 func (Attendance) TableName() string {
