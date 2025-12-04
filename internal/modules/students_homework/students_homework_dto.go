@@ -11,17 +11,19 @@ type SubmitHomeworkRequest struct {
 
 // GradeHomeworkRequest represents the request body for grading homework
 type GradeHomeworkRequest struct {
-	Score float64 `json:"score" binding:"required,min=0"`
+	StudentID  uint    `json:"student_id" binding:"required"`
+	HomeworkID uint    `json:"homework_id" binding:"required"`
+	Score      float64 `json:"score" binding:"required,min=0"`
 }
 
 // StudentHomeworkResponse represents the response body for student homework data
 type StudentHomeworkResponse struct {
-	ID             uint       `json:"id"`
-	StudentID      uint       `json:"student_id"`
-	HomeworkID     uint       `json:"homework_id"`
-	SubmissionDate *time.Time `json:"submission_date"`
-	Score          *float64   `json:"score"`
-	Status         string     `json:"status"`
-	CreatedAt      time.Time  `json:"created_at"`
-	UpdatedAt      time.Time  `json:"updated_at"`
+	ID             uint      `json:"id"`
+	StudentID      uint      `json:"student_id"`
+	HomeworkID     uint      `json:"homework_id"`
+	SubmissionDate *string   `json:"submission_date"`
+	Score          *float64  `json:"score"`
+	Status         string    `json:"status"`
+	CreatedAt      time.Time `json:"created_at"`
+	UpdatedAt      time.Time `json:"updated_at"`
 }
