@@ -1,3 +1,18 @@
+// @title School Management API
+// @version 1.0
+// @description REST API for School Management System
+// @termsOfService http://swagger.io/terms/
+
+// @contact.name API Support
+// @contact.email support@schoolmanagement.com
+
+// @license.name MIT
+// @license.url https://opensource.org/licenses/MIT
+
+// @host localhost:8080
+// @BasePath /api/v1
+// @schemes http https
+
 package main
 
 import (

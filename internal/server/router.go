@@ -14,11 +14,18 @@ import (
 	"school_management/internal/modules/teacher"
 
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
+
+	_ "school_management/docs" // Import generated docs
 )
 
 // SetupRouter creates and configures the Gin router
 func SetupRouter() *gin.Engine {
 	router := gin.Default()
+
+	// Swagger documentation endpoint
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	// Health check
 	router.GET("/health", func(c *gin.Context) {
@@ -65,7 +72,7 @@ func SetupRouter() *gin.Engine {
 	submissionController := students_homework.NewStudentHomeworkController(submissionService)
 
 	// Register routes
-	deptController.RegisterRoutes(v1) 
+	deptController.RegisterRoutes(v1)
 	teacherController.RegisterRoutes(v1)
 	studentController.RegisterRoutes(v1)
 	courseController.RegisterRoutes(v1)
