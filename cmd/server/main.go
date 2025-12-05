@@ -1,42 +1,37 @@
 package main
 
 import (
-	"fmt"
 	"log"
-	"net/http"
 
 	"school_management/internal/config"
-
 	"school_management/internal/database"
-
-	"github.com/gin-gonic/gin"
+	"school_management/internal/server"
 )
 
-func NewRouter() *gin.Engine {
-	r := gin.Default()
-
-	return r
-}
-
 func main() {
+	// Load configuration
 	cfg := config.LoadConfig()
-	fmt.Println(cfg)
 
-	// Create DB if missing
+	// Create database if not exists
 	database.CreateDatabaseIfNotExists(cfg)
 
-	// Connect using GORM
+	// Connect to database
 	database.ConnectDB(cfg)
 
-	// Run migrations to create/update tables
+	// Run migrations
 	database.RunMigrations()
 
-	r := gin.Default()
-	r.GET("/", func(c *gin.Context) {
-		c.String(http.StatusOK, "Hello, World!")
-	})
-	// r := server.NewRouter()
+	// Setup router
+	router := server.SetupRouter()
 
-	log.Println("🚀 Server starting on port:", cfg.AppPort)
-	r.Run(":" + cfg.AppPort)
+	// Start server
+	port := cfg.AppPort
+	if port == "" {
+		port = "8080"
+	}
+
+	log.Printf("🚀 Server starting on port %s", port)
+	if err := router.Run(":" + port); err != nil {
+		log.Fatalf("Failed to start server: %v", err)
+	}
 }
